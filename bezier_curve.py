@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from threading import Timer
+import curve
 
-class BezierCurve:
+
+class BezierCurve(curve.Curve):
     def __init__(self, P0, P1, P2, P3):
         self.P0 = P0
         self.P1 = P1
@@ -66,29 +67,41 @@ class BezierCurve:
         y_values = [point[1] for point in curve_points]
         orientation = [point[2] for point in curve_points]
         curvature = [point[3] for point in curve_points]
+        distance = [point[4] for point in curve_points]
         plt.quiver(x_values, y_values, np.cos(orientation), np.sin(orientation), color='green', label="Orientation")
         #write curvature on the plot
         for i in range(len(x_values)):
             plt.text(x_values[i], y_values[i], f"{curvature[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
+            plt.text(x_values[i], y_values[i] + 2, f"{distance[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
 
 
         plt.legend()
         plt.show()
 
     #returns a list of points on the curve, n_patiotions is the number of points equally spaced on the curve, each point is a tuple (x, y, orientation, curvature)
-    def get_curve(self, n_patiotions):
+    def get_curve(self, n_partitions):
         curve_points = []
-        t_values = np.linspace(0, 1, n_patiotions)
+        t_values = np.linspace(0, 1, n_partitions)
+        #used to calculate curve length
+        x_previous = self._bezier_point(0, 0)
+        y_previous = self._bezier_point(0, 1)
+        distance = 0
+
         for t in t_values:
             x = self._bezier_point(t, 0)
             y = self._bezier_point(t, 1)
 
-            # Calculate the first and second derivatives of the curve
-            x_prime = 3*(1-t)**2*(P1[0]-P0[0]) + 6*(1-t)*t*(P2[0]-P1[0]) + 3*t**2*(P3[0]-P2[0])
-            y_prime = 3*(1-t)**2*(P1[1]-P0[1]) + 6*(1-t)*t*(P2[1]-P1[1]) + 3*t**2*(P3[1]-P2[1])
+            # Calculate the distance from that beginning of the curve
+            distance = distance + np.sqrt((x - x_previous)**2 + (y - y_previous)**2)
+            x_previous = x
+            y_previous = y
 
-            x_double_prime = 6*(1-t)*(P2[0]-2*P1[0]+P0[0]) + 6*t*(P3[0]-2*P2[0]+P1[0])
-            y_double_prime = 6*(1-t)*(P2[1]-2*P1[1]+P0[1]) + 6*t*(P3[1]-2*P2[1]+P1[1])
+            # Calculate the first and second derivatives of the curve
+            x_prime = 3*(1-t)**2*(self.P1[0]-self.P0[0]) + 6*(1-t)*t*(self.P2[0]-self.P1[0]) + 3*t**2*(self.P3[0]-self.P2[0])
+            y_prime = 3*(1-t)**2*(self.P1[1]-self.P0[1]) + 6*(1-t)*t*(self.P2[1]-self.P1[1]) + 3*t**2*(self.P3[1]-self.P2[1])
+
+            x_double_prime = 6*(1-t)*(self.P2[0]-2*self.P1[0]+self.P0[0]) + 6*t*(self.P3[0]-2*self.P2[0]+self.P1[0])
+            y_double_prime = 6*(1-t)*(self.P2[1]-2*self.P1[1]+self.P0[1]) + 6*t*(self.P3[1]-2*self.P2[1]+self.P1[1])
 
             # Calculate the curvature
             curvature = np.abs(x_prime*y_double_prime - y_prime*x_double_prime) / (x_prime**2 + y_prime**2)**1.5
@@ -97,9 +110,15 @@ class BezierCurve:
             orientation = np.arctan2(y_prime, x_prime)
 
             # Append the point to the list
-            curve_points.append((x, y, orientation, curvature))
+            curve_points.append((x, y, orientation, curvature, distance))
 
         return curve_points
+    
+    #returns the length of the curve
+    def get_curve_length(self, n_partitions = 1000):
+        curve_points = self.get_curve(n_partitions)
+        distance = [point[4] for point in curve_points]
+        return distance[-1]
 
         
 
@@ -108,15 +127,15 @@ class BezierCurve:
         
         
 
-# Bezier curve parameters
-P0 = (0, 0)
-P1 = (0, 70)
-P2 = (50, 55)
-P3 = (90, 0)
+# # Bezier curve parameters
+# P0 = (0, 0)
+# P1 = (0, 70)
+# P2 = (50, 55)
+# P3 = (90, 0)
 
-# Create the Bezier curve
-bezier_curve = BezierCurve(P0, P1, P2, P3)
+# # Create the Bezier curve
+# bezier_curve = BezierCurve(P0, P1, P2, P3)
 
-# Plot the Bezier curve
-bezier_curve.plot_curve(15)
+# # Plot the Bezier curve
+# bezier_curve.plot_curve(15)
 
