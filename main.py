@@ -41,8 +41,8 @@ result = path_planner.calculate_path_on_map(cone_map)
 plotAllCurves(curve, cone_map, result)
 
 # Calculate the error
-error = error_calculator.calculate_error(curve, result)
-
+error = error_calculator.calculate_error(result, curve)
+print("Error: ", error)
 
 
 
