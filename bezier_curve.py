@@ -57,6 +57,7 @@ class BezierCurve(curve.Curve):
         # plt.text(x_for_target_y, target_y, f"({x_for_target_y:.2f}, {target_y})", fontsize=10, verticalalignment='bottom')
         plt.xlabel("X")
         plt.ylabel("Y")
+        plt.axis('equal')
         plt.grid(True)
 
         #plot control points as well
@@ -72,7 +73,7 @@ class BezierCurve(curve.Curve):
         #write curvature on the plot
         for i in range(len(x_values)):
             plt.text(x_values[i], y_values[i], f"{curvature[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
-            plt.text(x_values[i], y_values[i] + 2, f"{distance[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
+            #plt.text(x_values[i], y_values[i] + 2, f"{distance[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
 
 
         plt.legend()

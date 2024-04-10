@@ -5,7 +5,7 @@ import time
 import matplotlib.pyplot as plt
 import error_calculator
 
-def plotAllCurves(curve, cone_map, result):
+def plotAllCurves(curve, cone_map, result, name="plot"):
     # Plot the curve
     curve_points = curve.get_curve(100)  # Get 100 points along the curve
     # Separate the x and y coordinates
@@ -24,24 +24,30 @@ def plotAllCurves(curve, cone_map, result):
 
     plt.axis('equal')  # Set the aspect ratio of the plot to be equal
     plt.legend()  # Add a legend
+    # save the plot to ./results/plot.png
+    plt.savefig('./results/' + name + f'{time.time()}.png')
     plt.show()  # Display the plot
 
 
-curve = bezier_curve.BezierCurve((1, 0), (15, 0), (20, 20), (0, 20))
-curve.plot_curve(15)
+# curve = bezier_curve.BezierCurve((0, 0), (3.86, 0), (11.65, 2.23), (14.42, -7.07))
+# # curve.plot_curve(30)
 
-map = map_generator.Map(curve)
-map.plot_map()
-cone_map = map.get_cones()
+# # track_width = 3.0
 
-path_planner = FRT_path_planner_interface.FRT_path_planner_interface()
-result = path_planner.calculate_path_on_map(cone_map)
+# map = map_generator.Map(curve, 2.82606619, 3.27605791, 0.21361456, 4.45465515)
+# cone_map = map.generate_cones()
+# map.plot_map()
+# # cone_map = map.get_cones()
 
-# plot the result, cone_map and the curve
-plotAllCurves(curve, cone_map, result)
+# path_planner = FRT_path_planner_interface.FRT_path_planner_interface()
+# result = path_planner.calculate_path_on_map(cone_map)
 
-# Calculate the error
-error = error_calculator.calculate_error(curve, result)
+# # plot the result, cone_map and the curve
+# plotAllCurves(curve, cone_map, result)
+
+# # Calculate the error
+# error = error_calculator.calculate_error(result, curve, track_width)
+# print("ennyi az error: ", error)
 
 
 
