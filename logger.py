@@ -18,11 +18,11 @@ class Logger:
         
         with open(self.filename, 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(["timestamp", "count", "param1", "param2", "param3", "error"])
+            writer.writerow(["timestamp", "count", "p1x", "p1y" , "p2x", "p2y", "p3x", "p3y", "error"])
 
-    def log(self, param1, param2, param3, param4, param5, error=""):
+    def log(self, param0 , param1, param2, param3, param4, param5, error=""):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open(self.filename, 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([timestamp, self.log_count, param1, param2, param3, param4, param5, error])
+            writer.writerow([timestamp, self.log_count,param0, param1, param2, param3, param4, param5, error])
             self.log_count += 1

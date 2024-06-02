@@ -28,8 +28,8 @@ def calculate_error(path, ground_truth_curve : curve.Curve, track_width = 3.0):
         total_error += error
         
     if(have_left_track):
-        print("The car has left the track")
+        print("The car has left the track!!!")
         #minimum error is 0
         return 0
     else:
-        return track_width/2 - (total_error / n_samples)
+        return 10*(track_width/2 - (total_error / n_samples))

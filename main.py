@@ -4,6 +4,8 @@ import FRT_path_planner_interface
 import time
 import matplotlib.pyplot as plt
 import error_calculator
+#import visualize_convergence
+
 
 def plotAllCurves(curve, cone_map, result, name="plot"):
     # Plot the curve
@@ -20,7 +22,7 @@ def plotAllCurves(curve, cone_map, result, name="plot"):
     # Assuming result is a list of (x, y) tuples
     if result:
         result_xs, result_ys = zip(*result)  # Separate the x and y coordinates
-        plt.plot(result_xs, result_ys, label='Result')
+        plt.plot(result_xs, result_ys, label='Result', color='orange')
 
     plt.axis('equal')  # Set the aspect ratio of the plot to be equal
     plt.legend()  # Add a legend
@@ -29,26 +31,25 @@ def plotAllCurves(curve, cone_map, result, name="plot"):
     plt.show()  # Display the plot
 
 
-# curve = bezier_curve.BezierCurve((0, 0), (3.86, 0), (11.65, 2.23), (14.42, -7.07))
-# # curve.plot_curve(30)
+curve = bezier_curve.BezierCurve((0, 0), ( 0.336278751764338, 3.9316527821897433), ( 1.665424142910973, 7.396301993786235), ( 6.5476176005836315, 10.11575203086888))
+# curve.plot_curve(300)
 
 # # track_width = 3.0
 
-# map = map_generator.Map(curve, 2.82606619, 3.27605791, 0.21361456, 4.45465515)
-# cone_map = map.generate_cones()
-# map.plot_map()
-# # cone_map = map.get_cones()
+map = map_generator.Map(curve, 3, 3, 0.0, 3)
+cone_map = map.generate_cones()
+map.plot_map()
 
-# path_planner = FRT_path_planner_interface.FRT_path_planner_interface()
-# result = path_planner.calculate_path_on_map(cone_map)
+
+path_planner = FRT_path_planner_interface.FRT_path_planner_interface()
+result = path_planner.calculate_path_on_map(cone_map)
 
 # # plot the result, cone_map and the curve
-# plotAllCurves(curve, cone_map, result)
+plotAllCurves(curve, cone_map, result)
 
 # # Calculate the error
-# error = error_calculator.calculate_error(result, curve, track_width)
-# print("ennyi az error: ", error)
-
+error = error_calculator.calculate_error(result, curve)
+print("ennyi az error: ", error)
 
 
 

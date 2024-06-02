@@ -14,7 +14,7 @@ import map_generator
 
 import FRT_path_planner_interface
 import main
-from problems_cone import ConeProblem
+from cone_problem import ConeProblem
 
 FRT_path_planner = FRT_path_planner_interface.FRT_path_planner_interface()
 
@@ -33,7 +33,7 @@ algorithm = NSGA2(
 res = minimize(
     problem,
     algorithm,
-    ("n_gen", 50),
+    ("n_gen", 25),
     verbose=True
 )
 #print everything about the result

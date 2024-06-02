@@ -52,7 +52,7 @@ class BezierCurve(curve.Curve):
 
         plt.figure(figsize=(8, 6))
         #plt.plot(x_values, y_values, label="Bezier Curve", color='blue')
-        plt.scatter(x_values, y_values, color='blue', label="Bezier Curve")
+        plt.plot(x_values, y_values, color='blue', label="Bezier Curve")
         # plt.scatter([x_for_target_y], [target_y], color='red', zorder=5)
         # plt.text(x_for_target_y, target_y, f"({x_for_target_y:.2f}, {target_y})", fontsize=10, verticalalignment='bottom')
         plt.xlabel("X")
@@ -69,10 +69,10 @@ class BezierCurve(curve.Curve):
         orientation = [point[2] for point in curve_points]
         curvature = [point[3] for point in curve_points]
         distance = [point[4] for point in curve_points]
-        plt.quiver(x_values, y_values, np.cos(orientation), np.sin(orientation), color='green', label="Orientation")
+        #plt.quiver(x_values, y_values, np.cos(orientation), np.sin(orientation), color='green', label="Orientation")
         #write curvature on the plot
-        for i in range(len(x_values)):
-            plt.text(x_values[i], y_values[i], f"{curvature[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
+        #for i in range(len(x_values)):
+            #plt.text(x_values[i], y_values[i], f"{curvature[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
             #plt.text(x_values[i], y_values[i] + 2, f"{distance[i]:.2f}", fontsize=8, verticalalignment='bottom', horizontalalignment='right')
 
 
@@ -135,8 +135,8 @@ class BezierCurve(curve.Curve):
 # P3 = (90, 0)
 
 # # Create the Bezier curve
-# bezier_curve = BezierCurve(P0, P1, P2, P3)
+bezier_curve = BezierCurve((0, 0), ( 0.336278751764338, 3.9316527821897433), ( 1.665424142910973, 7.396301993786235), ( 6.5476176005836315, 10.11575203086888))
 
 # # Plot the Bezier curve
-# bezier_curve.plot_curve(15)
+bezier_curve.plot_curve(45)
 
